@@ -2,7 +2,6 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import Items from '../components/Items'
 import Navbar from '../components/Navbar'
-import axios from 'axios'
 import { getDataNews } from '../utils/getDataNews'
 import { NewsItems } from '../types/News'
 
