@@ -5,6 +5,9 @@ const nextConfig = {
     domains: ['akcdn.detik.net.id']
   },
   swcMinify: true,
+  experimental:{
+    appDir: true
+  }
 }
 
 module.exports = nextConfig

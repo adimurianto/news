@@ -1,11 +1,13 @@
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useDispatch } from 'react-redux'
+import { updateCatgeory, updateNews } from '../features/News/actions'
 
 const navigation = [
-  { name: 'Nasional', href: '#', current: true },
-  { name: 'Ekonomi', href: '#', current: false },
-  { name: 'Teknologi', href: '#', current: false },
-  { name: 'Hiburan', href: '#', current: false },
+  { name: 'Nasional', href: '?category=nasional', current: true },
+  { name: 'Ekonomi', href: '?category=ekonomi', current: false },
+  { name: 'Teknologi', href: '?category=teknologi', current: false },
+  { name: 'Hiburan', href: '?category=hiburan', current: false },
 ]
 
 function classNames(...classes: string[]) {
@@ -13,6 +15,8 @@ function classNames(...classes: string[]) {
 }
 
 export default function Navbar() {
+  const dispatch = useDispatch()
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -49,6 +53,7 @@ export default function Navbar() {
                       <a
                         key={item.name}
                         href={item.href}
+                        onClick={() => dispatch(updateCatgeory(item.name.toLowerCase()))}
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'px-3 py-2 rounded-md text-sm font-medium'
@@ -71,6 +76,7 @@ export default function Navbar() {
                   key={item.name}
                   as="a"
                   href={item.href}
+                  onClick={() => dispatch(updateCatgeory(item.name.toLowerCase()))}
                   className={classNames(
                     item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'block px-3 py-2 rounded-md text-base font-medium'

@@ -4,30 +4,32 @@ import Items from '../components/Items'
 import Navbar from '../components/Navbar'
 import { getDataNews } from '../utils/getDataNews'
 import { NewsItems } from '../types/News'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateNews } from '../features/News/actions'
 
 interface NewsPageProps {
   NewsData: NewsItems
 }
 
 export default function Home({NewsData}: NewsPageProps) {
-  const [category, setCategory] = useState('nasional');
-  const [listNews, setListNews] = useState(NewsData);
+  let listNews = NewsData;
+  listNews = useSelector((state:any) => state?.news);
+  const category = listNews.category;
+  const dispatch = useDispatch();
 
   useEffect(()=>{
-    const loadPokemon = async ()=>{
+    const loadNews = async ()=>{
         try{
             const res:any = await getDataNews(`https://www.cnnindonesia.com/${category}/rss`, category);
-            setListNews(res);
+            dispatch(updateNews(res.category, res.data));
         }catch(err){
           let message = 'Unknown Error'
           if (err instanceof Error) message = err.message
           console.log(err);
         }
     }
-    loadPokemon();
+    loadNews();
   },[category])
-
-  console.log(listNews);
 
   return (
     <div className='bg-white'>
@@ -41,14 +43,16 @@ export default function Home({NewsData}: NewsPageProps) {
         <Navbar />
       </header>
 
-      <main style={{minHeight:"90vh"}}>
-        {
-          listNews ?
-          <Items dataItems={listNews.data} category={listNews.category} />
-          :
-          <h2 className='text-center text-black'>No Data</h2>
-        }
-      </main>
+      {
+        listNews && listNews.data.length > 0 ?
+          <main style={{minHeight:"90vh"}}>
+              <Items dataItems={listNews.data} category={listNews.category} />
+          </main>
+        :
+          <div style={{minHeight:"90vh", width: "100%", textAlign: "center"}}>
+            <h2 className='text-center text-black text-lg my-3'>No Data</h2>
+          </div>
+      }
 
       <footer className='text-center bg-gray-800 py-5 text-sm leading-6 text-white-800'>
         Developed By Adi Murianto
