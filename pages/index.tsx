@@ -14,7 +14,7 @@ interface NewsPageProps {
 export default function Home({NewsData}: NewsPageProps) {
   let listNews = NewsData;
   listNews = useSelector((state:any) => state?.news);
-  const category = listNews.category;
+  let category = listNews.category;
   const dispatch = useDispatch();
 
   useEffect(()=>{
@@ -40,7 +40,7 @@ export default function Home({NewsData}: NewsPageProps) {
       </Head>
 
       <header>
-        <Navbar />
+        <Navbar category={category} />
       </header>
 
       {
@@ -54,7 +54,7 @@ export default function Home({NewsData}: NewsPageProps) {
           </div>
       }
 
-      <footer className='text-center bg-gray-800 py-5 text-sm leading-6 text-white-800'>
+      <footer className='text-center bg-gray-800 py-5 text-sm leading-6 text-white'>
         Developed By Adi Murianto
       </footer>
     </div>

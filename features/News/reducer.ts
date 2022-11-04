@@ -10,7 +10,7 @@ const reducer = (state = initialState, action: any) => {
                 category: action.category,
                 data: action.items
             }
-        case "updateCatgeory":
+        case "updateCategory":
             return {
                 ...state,
                 category: action.category,

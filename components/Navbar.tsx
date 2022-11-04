@@ -1,21 +1,35 @@
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useDispatch } from 'react-redux'
-import { updateCatgeory, updateNews } from '../features/News/actions'
-
-const navigation = [
-  { name: 'Nasional', href: '?category=nasional', current: true },
-  { name: 'Ekonomi', href: '?category=ekonomi', current: false },
-  { name: 'Teknologi', href: '?category=teknologi', current: false },
-  { name: 'Hiburan', href: '?category=hiburan', current: false },
-]
+import { updateCategory, updateNews } from '../features/News/actions'
+import Router from 'next/router';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Navbar() {
+type NavProps = {
+    category: string;
+}
+
+export default function Navbar({category}: NavProps) {
+  const navigation = [
+    { name: 'Nasional', href: '?category=nasional' },
+    { name: 'Ekonomi', href: '?category=ekonomi' },
+    { name: 'Teknologi', href: '?category=teknologi' },
+    { name: 'Hiburan', href: '?category=hiburan' },
+  ]
+
   const dispatch = useDispatch()
+
+  const handleClickCategory = (category: string) => {
+    category = category.toLowerCase()
+    Router.push({
+      query: {category}
+    });
+
+    dispatch(updateCategory(category));
+  }
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -52,13 +66,12 @@ export default function Navbar() {
                     {navigation.map((item) => (
                       <a
                         key={item.name}
-                        href={item.href}
-                        onClick={() => dispatch(updateCatgeory(item.name.toLowerCase()))}
+                        onClick={() => handleClickCategory(item.name)}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-sm font-medium'
+                          item.name.toLowerCase() == category ? 'bg-gray-900 text-white cursor-pointer' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'px-3 py-2 rounded-md text-sm font-medium cursor-pointer'
                         )}
-                        aria-current={item.current ? 'page' : undefined}
+                        aria-current={item.name.toLowerCase() == category ? 'page' : undefined}
                       >
                         {item.name}
                       </a>
@@ -74,14 +87,12 @@ export default function Navbar() {
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
-                  as="a"
-                  href={item.href}
-                  onClick={() => dispatch(updateCatgeory(item.name.toLowerCase()))}
+                  onClick={() => handleClickCategory(item.name)}
                   className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block px-3 py-2 rounded-md text-base font-medium'
+                    item.name.toLowerCase() == category ? 'bg-gray-900 text-white cursor-pointer' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'block px-3 py-2 rounded-md text-base font-medium cursor-pointer'
                   )}
-                  aria-current={item.current ? 'page' : undefined}
+                  aria-current={item.name.toLowerCase() == category ? 'page' : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>

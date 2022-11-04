@@ -6,9 +6,9 @@ export const updateNews = (category: string, items: any) => {
     }
 }
 
-export const updateCatgeory = (category: string) => {
+export const updateCategory = (category: string) => {
     return {
-        type: "updateCatgeory",
+        type: "updateCategory",
         category
     }
 }
