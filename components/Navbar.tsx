@@ -52,13 +52,15 @@ export default function Navbar({category}: NavProps) {
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="block h-8 w-auto lg:hidden"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    src="/logoNews.png"
                     alt="Your Company"
+                    style={{filter: "brightness(0) invert(1)"}}
                   />
                   <img
                     className="hidden h-8 w-auto lg:block"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    src="/logoNews.png"
                     alt="Your Company"
+                    style={{filter: "brightness(0) invert(1)"}}
                   />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
