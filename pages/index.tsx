@@ -6,6 +6,8 @@ import { getDataNews } from '../utils/getDataNews'
 import { NewsItems } from '../types/News'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateNews } from '../features/News/actions'
+import Banner from '../components/Banner'
+import PopupDetail from '../components/PopupDetail'
 
 interface NewsPageProps {
   NewsData: NewsItems
@@ -41,6 +43,7 @@ export default function Home({NewsData}: NewsPageProps) {
 
       <header>
         <Navbar category={category} />
+        <Banner />
       </header>
 
       {
@@ -53,6 +56,8 @@ export default function Home({NewsData}: NewsPageProps) {
             <h2 className='text-center text-black text-lg my-3'>No Data</h2>
           </div>
       }
+
+      <PopupDetail status={false} />
 
       <footer className='text-center bg-gray-800 py-5 text-sm leading-6 text-white'>
         Developed By Adi Murianto

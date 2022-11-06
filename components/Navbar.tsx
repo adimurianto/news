@@ -54,13 +54,11 @@ export default function Navbar({category}: NavProps) {
                     className="block h-8 w-auto lg:hidden"
                     src="/logoNews.png"
                     alt="Your Company"
-                    style={{filter: "brightness(0) invert(1)"}}
                   />
                   <img
                     className="hidden h-8 w-auto lg:block"
                     src="/logoNews.png"
                     alt="Your Company"
-                    style={{filter: "brightness(0) invert(1)"}}
                   />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
