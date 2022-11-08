@@ -1,20 +1,34 @@
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-import { type } from 'os'
+import Image from "next/image";
 
 type DetailProps = {
-    status: boolean
+  detail: any,
+  time: Date,
+  status: boolean
 }
 
-export default function PopupDetail({status}: DetailProps) {
-  const [open, setOpen] = useState(status)
+export default function PopupDetail({status, detail, time}: DetailProps) {
+  const [open, setOpen] = useState(status);
+  const [details, setDetail] = useState(detail);
+  const cancelButtonRef = useRef(null);
+  let execute = 0;
 
-  const cancelButtonRef = useRef(null)
+  useEffect(()=>{
+    const loadPopup = async ()=>{
+      setOpen(status);
+      setDetail(detail);
+    }
+    loadPopup();
+  }, [time])
+
+  const closePopup = () => {
+    setOpen(false);
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+      <Dialog as="div" className="relative z-50" initialFocus={cancelButtonRef} onClose={() => closePopup()}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -38,17 +52,34 @@ export default function PopupDetail({status}: DetailProps) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+              <Dialog.Panel className="relative w-full max-w-md transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 md:w-full md:max-w-md">
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:text-left">
                       <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                        Judul Berita
+                        {detail?.title}
                       </Dialog.Title>
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500">
-                          Image dan Summary dari judul berita tersebut
-                        </p>
+                      <div className="mt-2 container">
+                        <div className="py-5 bg-white flex items-center mx-auto sm:flex-row flex-row">
+                          <div className="inline-flex items-center justify-center rounded-md">
+                              <Image
+                                alt={detail?.title}
+                                src={detail?.image?.large}
+                                className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                                width={700}
+                                height={40}
+                              />
+                          </div>
+                        </div>
+
+                        <div className="flex-grow sm:text-left text-black inline-flex text-center mt-0">
+                          {detail?.contentSnippet}
+                        </div>
+                        <div className="rounded-md shadow mt-2 mb-2 float-left w-full">
+                          <a href={detail?.link} target="blank" className="flex w-full items-center justify-center rounded-md border border-transparent bg-gray-800 px-8 py-3 text-base font-medium text-white">
+                            Read More
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
